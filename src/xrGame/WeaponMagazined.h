@@ -28,7 +28,6 @@ protected:
     ESoundTypes m_eSoundShot;
     ESoundTypes m_eSoundEmptyClick;
     ESoundTypes m_eSoundReload;
-    ESoundTypes m_eSoundReloadEmpty;
     ESoundTypes m_eSoundReloadMisfire;
 
     bool m_sounds_enabled;

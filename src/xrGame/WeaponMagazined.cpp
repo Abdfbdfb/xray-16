@@ -32,7 +32,6 @@ CWeaponMagazined::CWeaponMagazined(ESoundTypes eSoundType) : CWeapon()
     m_eSoundEmptyClick = ESoundTypes(SOUND_TYPE_WEAPON_EMPTY_CLICKING | eSoundType);
 
     m_eSoundReload = ESoundTypes(SOUND_TYPE_WEAPON_RECHARGING | eSoundType);
-    m_eSoundReloadEmpty = ESoundTypes(SOUND_TYPE_WEAPON_RECHARGING | eSoundType);
 
     m_sounds_enabled = true;
 
@@ -78,6 +77,9 @@ void CWeaponMagazined::Load(LPCSTR section)
     m_sounds.LoadSound(section, "snd_shoot", "sndShot", false, m_eSoundShot);
     m_sounds.LoadSound(section, "snd_empty", "sndEmptyClick", false, m_eSoundEmptyClick);
     m_sounds.LoadSound(section, "snd_reload", "sndReload", true, m_eSoundReload);
+    m_sounds.LoadSound(section, "snd_reload_empty", "sndReloadEmpty", true, m_eSoundReload);
+
+
 
     m_sSndShotCurrent = "sndShot";
 
@@ -475,10 +477,6 @@ void CWeaponMagazined::UpdateSounds()
     m_sounds.SetPosition("sndHide", P);
     //. nah	m_sounds.SetPosition("sndShot", P);
     m_sounds.SetPosition("sndReload", P);
-
-    if (m_sounds.FindSoundItem("sndReloadEmpty", false))
-        m_sounds.SetPosition("sndReloadEmpty", P);
-
     //. nah	m_sounds.SetPosition("sndEmptyClick", P);
 }
 
@@ -720,26 +718,7 @@ void CWeaponMagazined::switch2_Empty()
 void CWeaponMagazined::PlayReloadSound()
 {
     if (m_sounds_enabled)
-    {
-        if (bMisfire)
-        {
-            //TODO: make sure correct sound is loaded in CWeaponMagazined::Load(LPCSTR section)
-            if (m_sounds.FindSoundItem("sndReloadMisfire", false))
-                PlaySound("sndReloadMisfire", get_LastFP());
-            else
-                PlaySound("sndReload", get_LastFP());
-        }
-        else
-        {
-            if (iAmmoElapsed == 0)
-                if (m_sounds.FindSoundItem("sndReloadEmpty", false))
-                    PlaySound("sndReloadEmpty", get_LastFP());
-                else
-                    PlaySound("sndReload", get_LastFP());
-            else
-                PlaySound("sndReload", get_LastFP());
-        }
-    }
+        PlaySound("sndReload", get_LastFP());
 }
 
 void CWeaponMagazined::switch2_Reload()
